@@ -16,15 +16,15 @@
 
 {% include 'wiki/navbar.html' %}
 
-<div class="wrapper">
+<div id="wrapper">
 
     {% include 'wiki/sidebar.html' %}
 
-    <div class="content-wrapper">
+    <div id="content-wrapper">
         <div class="container-fluid">
             {% block content %}
 
-            {% endblock content %}
+            {% endblock %}
         </div>
     </div>
 
