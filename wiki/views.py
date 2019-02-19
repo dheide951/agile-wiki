@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 
 
 def index(request):
-    return render(request, 'wiki/base_template.html')
+    return render(request, 'wiki/index.html')
 
 
 def register(request):
