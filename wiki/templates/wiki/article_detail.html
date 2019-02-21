@@ -4,7 +4,6 @@
 
     <div class="d-flex align-items-center">
         <h1>{{ article.title }}</h1>
-
     </div>
     <h5>{{ article.user.username }}</h5>
     <div class="d-flex mb-4">
@@ -18,52 +17,53 @@
         {% endif %}
 
     </div>
-    <p>{{ article.body }}</p>
+    <p>{{ article.body | linebreaks }}</p>
     <div>
         <a href="#" class="btn btn-sm btn-primary">Rate Me</a>
     </div>
     {#  Comments #}
     <div class="mt-5">
-        <h3>Comments</h3>
-        <div class="list-group list-group-flush">
-            <div class="list-group-item d-flex flex-column">
-                <span><b>Dawson Heide</b></span>
-                <p class="mb-2">it is a long established fact that a reader will be distracted by the readable
-                    content of a page
-                    when
-                    looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                    distribution of letters, as opposed to using 'Content here, content here', making it look like
-                    readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as
-                    their
-                    default model text, and a search for 'lorem ipsum' will uncover many web sites still in their
-                    infancy. Various versions have evolved over the years, sometimes by accident, sometimes on
-                    purpose
-                    (injected humour and the like).</p>
-                <div class="ml-auto">
-                    <a href="#" class="btn btn-sm btn-primary">
-                        <i class="far fa-thumbs-up"></i>
-                        <span class="text-white">1</span></a>
-                </div>
-            </div>
-            <div class="list-group-item d-flex flex-column">
-                <span><b>Dillon Hartley</b></span>
-                <p class="mb-2">it is a long established fact that a reader will be distracted by the readable
-                    content of a page
-                    when
-                    looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
-                    distribution of letters, as opposed to using 'Content here, content here', making it look like
-                    readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as
-                    their
-                    default model text, and a search for 'lorem ipsum' will uncover many web sites still in their
-                    infancy. Various versions have evolved over the years, sometimes by accident, sometimes on
-                    purpose
-                    (injected humour and the like).</p>
-                <div class="ml-auto">
-                    <a href="#" class="btn btn-sm btn-primary">Like <i class="far fa-thumbs-up"></i></a>
-                </div>
+        <div class="d-flex align-items-center">
+            <h3>Comments</h3>
+            <div class="ml-auto">
+                <a href="#" role="button" data-toggle="collapse" data-target="#comment" class="text-primary"
+                   style="text-decoration: none">Leave a comment</a>
             </div>
         </div>
+        <div class="collapse mb-3" id="comment">
+            <div class="comment_form">
+                <form action="{% url 'article-comment' pk=article.id %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{ comment_form.body }}
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="ml-auto">
+                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="list-group list-group-flush">
+            {% if article.has_comments %}
+                {% for c in article.reversed_comments %}
+                <div class="list-group-item d-flex flex-column">
+                    <span><b>{{ c.user.username }}</b></span>
+                    <p class="mb-2">
+                        {{ c.body }}
+                    </p>
+                    <div class="ml-auto">
+                        <a href="#" class="text-primary" style="text-decoration: none">
+                            <i class="far fa-thumbs-up"></i>
+                            <span>1</span></a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="list-group-item d-flex flex-column">
+                    <span>There are no comments on this article. Please leave a comment</span>
+                </div>
+            {% endif %}
+        </div>
     </div>
-
 
 {% endblock %}

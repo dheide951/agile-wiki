@@ -13,7 +13,7 @@
             <a href="{% url 'article-detail' pk=a.id %}" class="list-group-item list-group-item-action">
                 <div class="d-flex">
                     <h5>{{ a.title }}</h5>
-                    <span class="ml-auto"><b>Dawson Heide</b></span>
+                    <span class="ml-auto"><b>{{ a.user.username }}</b></span>
                 </div>
                 <p class="mb-1">
                     {{ a.preview }}

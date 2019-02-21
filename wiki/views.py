@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from wiki.models import Article, Discussion
-from wiki.forms import ArticleForm, DiscussionForm
+from wiki.models import Article, Discussion, Comment
+from wiki.forms import ArticleForm, DiscussionForm, CommentForm
 from django.views import View
 from django.views.generic import DetailView, ListView
 
@@ -33,12 +33,49 @@ def register(request):
     return render(request, 'registration/register.html', context)
 
 
+def add_article_comment(request, pk):
+    article = get_object_or_404(Article, pk=pk)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.article = article
+            comment.save()
+            return redirect('article-detail', pk=pk)
+
+    return redirect('article-detail', pk=pk)
+
+
+def add_discussion_comment(request, pk):
+    discussion = get_object_or_404(Discussion, pk=pk)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.discussion = discussion
+            comment.save()
+            return redirect('discussion-detail', pk=pk)
+
+    return redirect('discussion-detail', pk=pk)
+
+
 class ArticleListView(ListView):
     model = Article
 
 
 class ArticleDetailView(DetailView):
     model = Article
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context['comment_form'] = CommentForm(initial={'key': 'value'})
+        return context
 
 
 class UserArticleView(ListView):
@@ -74,6 +111,11 @@ class DiscussionListView(ListView):
 
 class DiscussionDetailView(DetailView):
     model = Discussion
+
+    def get_context_data(self, **kwargs):
+        context = super(DiscussionDetailView, self).get_context_data(**kwargs)
+        context['comment_form'] = CommentForm(initial={'key': 'value'})
+        return context
 
 
 class UserDiscussionView(ListView):

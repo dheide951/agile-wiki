@@ -75,8 +75,19 @@
                 <span class="item">References</span></a>
         </li>
         <li class="nav-item ml-2">
-            <a class="nav-link link" href="#">
-                <span class="item">External Links</span></a>
+            <a class="nav-link group" href="#" role="button" data-toggle="collapse" data-target="#quick_links">
+                <span>Quick Links</span>
+            </a>
         </li>
+        <div class="collapse" id="quick_links">
+            <ul class="links">
+                <li>
+                    <a href="{% url 'add-article' %}">Add an Article</a>
+                </li>
+                <li>
+                    <a href="{% url 'add-discussion' %}">Add a Discussion</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </ul>

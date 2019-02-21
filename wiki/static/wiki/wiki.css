@@ -120,7 +120,7 @@ body {
     height: 500px;
 }
 
-.article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea {
+.article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea, .comment_form textarea {
 
     /*width: 100%;*/
     resize: none;

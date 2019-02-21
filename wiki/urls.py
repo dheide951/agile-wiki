@@ -23,4 +23,6 @@ urlpatterns = [
     path('discussions/', DiscussionListView.as_view(), name='discussions'),
     path('discussions/<int:pk>', DiscussionDetailView.as_view(), name='discussion-detail'),
     path('user/discussions/', login_required(UserDiscussionView.as_view()), name='user-discussion'),
+    path('articles/<int:pk>/comment', login_required(views.add_article_comment), name='article-comment'),
+    path('discussions/<int:pk>/comment', login_required(views.add_discussion_comment), name='discussion-comment')
 ]
