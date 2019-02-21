@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from wiki.models import Article
-from wiki.forms import ArticleForm
+from wiki.models import Article, Discussion
+from wiki.forms import ArticleForm, DiscussionForm
 from django.views import View
 from django.views.generic import DetailView, ListView
 
@@ -63,6 +63,41 @@ class ArticleFormView(View):
             article = form.save(commit=False)
             article.user = request.user
             article.save()
-            return redirect('detail', pk=article.pk)
+            return redirect('article-detail', pk=article.pk)
+
+        return render(request, self.template_name, {'form': form})
+
+
+class DiscussionListView(ListView):
+    model = Discussion
+
+
+class DiscussionDetailView(DetailView):
+    model = Discussion
+
+
+class UserDiscussionView(ListView):
+    model = Discussion
+
+    def get_queryset(self):
+        return Discussion.objects.filter(user=self.request.user)
+
+
+class DiscussionFormView(View):
+    form_class = DiscussionForm
+    initial = {'key': 'value'}
+    template_name = 'wiki/add_discussion.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            discussion = form.save(commit=False)
+            discussion.user = request.user
+            discussion.save()
+            return redirect('discussion-detail', pk=discussion.pk)
 
         return render(request, self.template_name, {'form': form})
