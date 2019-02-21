@@ -1,0 +1,10 @@
+{% extends 'wiki/base_template.html' %}
+{% block content %}
+
+    <form action="{% url 'add-article' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}
