@@ -13,6 +13,9 @@ class Article(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
 
+    class Meta:
+        ordering = ['-id']
+
     @property
     def preview(self):
         return self.body[:1000]

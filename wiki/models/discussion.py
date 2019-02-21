@@ -10,6 +10,9 @@ class Discussion(models.Model):
     body = models.TextField(max_length=2000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ['-id']
+
     @property
     def preview(self):
         return self.body[:300] + '....'
