@@ -112,6 +112,27 @@ body {
     border-radius: 2px;
 }
 
+.article-form input[type="text"], .discussion-form input[type="text"] {
+    margin-bottom: 2em;
+}
+
+.article-form textarea {
+    height: 500px;
+}
+
+.article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea {
+
+    /*width: 100%;*/
+    resize: none;
+    display: block;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: .5em;
+    border-radius: 2px;
+
+}
+
+
 @media (max-width: 700px) {
 
     .sidebar {

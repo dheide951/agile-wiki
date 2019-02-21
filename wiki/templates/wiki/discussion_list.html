@@ -2,10 +2,24 @@
 
 {% block content %}
 
-    {% for d in object_list %}
-
-        {{ d }}
-
-    {% endfor %}
+    <div class="d-flex align-items-center">
+        <h1>Discussions</h1>
+        <div class="ml-auto">
+            <a href="{% url 'add-discussion' %}" class="btn btn-sm btn-primary">Post Discussion</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        {% for d in object_list %}
+            <a href="{% url 'discussion-detail' pk=d.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                    <h5>{{ d.title }}</h5>
+                    <span class="ml-auto"><b>Dawson Heide</b></span>
+                </div>
+                <p class="mb-1">
+                    {{ d.preview }}
+                </p>
+            </a>
+        {% endfor %}
+    </div>
 
 {% endblock %}

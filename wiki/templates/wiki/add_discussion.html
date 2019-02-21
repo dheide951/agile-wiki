@@ -2,10 +2,19 @@
 
 {% block content %}
 
-    <form action="{% url 'add-discussion' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
+    <div class="discussion-form">
+        <form action="{% url 'add-discussion' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+            <h3>Title:</h3>
+            {{ form.title }}
+            <h3>Discussion:</h3>
+            {{ form.body }}
+            <div class="d-flex mt-2">
+                <div class="ml-auto">
+                    <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}
