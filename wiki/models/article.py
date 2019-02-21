@@ -8,3 +8,8 @@ class Article(models.Model):
     body = models.TextField(max_length=5000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
+
+
+    @property
+    def preview(self):
+        return self.body[:1000]
