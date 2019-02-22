@@ -8,7 +8,9 @@ from django.views.generic import DetailView, ListView
 
 
 def index(request):
-    return render(request, 'wiki/index.html')
+    top_articles = Article.objects.filter(rating__gt=3)
+    context = {'top_articles': top_articles}
+    return render(request, 'wiki/index.html', context)
 
 
 def register(request):
@@ -63,6 +65,19 @@ def add_discussion_comment(request, pk):
             return redirect('discussion-detail', pk=pk)
 
     return redirect('discussion-detail', pk=pk)
+
+
+def rate_article(request, pk):
+    article = Article.objects.get(pk=pk)
+
+    if not article:
+        return redirect('articles')
+
+    if request.method == 'POST':
+        if request.POST['rate']:
+            article.calculate_rating(request.POST['rate'])
+
+    return redirect('article-detail', pk=pk)
 
 
 class ArticleListView(ListView):

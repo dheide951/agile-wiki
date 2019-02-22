@@ -26,83 +26,36 @@
             evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
     </div>
     <h3 class="mb-2 mt-auto">Top Articles</h3>
-    <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex">
-                <h5>Agile Tips</h5>
-                <span class="ml-auto"><b>Dawson Heide</b></span>
-            </div>
-            <p class="mb-1">
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-                of
-                classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
-                Latin
-                professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
-                words,
-                consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
-                classical
-                literature, discovered the undoubtable source.
-            </p>
-            <div class="d-flex">
-                <span class="mr-1">Rating</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span>&#9733;</span>
-            </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex">
-                <h5>Agile Pros and Cons</h5>
-                <span class="ml-auto"><b>Dillon Hartley</b></span>
-            </div>
-            <p>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-                of
-                classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
-                Latin
-                professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
-                words,
-                consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
-                classical
-                literature, discovered the undoubtable source.
-            </p>
-            <div class="d-flex">
-                <span class="mr-1">Rating</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span>&#9733;</span>
-            </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex">
-                <h5>The Rules of Agile</h5>
-                <span class="ml-auto"><b>Daniel Garwood</b></span>
-            </div>
-            <p>
-                Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece
-                of
-                classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
-                Latin
-                professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin
-                words,
-                consectetur, from a Lorem Ipsum passage, and going through the cites of the word in
-                classical
-                literature, discovered the undoubtable source.
-            </p>
-            <div class="d-flex">
-                <span class="mr-1">Rating</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span class="text-warning">&#9733;</span>
-                <span>&#9733;</span>
-            </div>
-        </a>
-    </div>
+    {% if top_articles %}
+
+        <div class="list-group list-group-flush">
+            {% for a in top_articles %}
+                <a href="{% url 'article-detail' pk=a.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex">
+                        <h5>{{ a.title }}</h5>
+                        <span class="ml-auto"><b>{{ a.user.username }}</b></span>
+                    </div>
+                    <p class="mb-1">{{ a.preview }}</p>
+                    <div class="d-flex mb-4">
+                        {% if a.rating %}
+                            <div>
+                                <span class="mr-2">Rating</span>
+                                {% for i in "x"|ljust:a.rating %}
+                                    <span class="text-warning">&#9733;</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <hr>
+        <span>There are no top articles</span>
+
+    {% endif %}
 
 
 {% endblock %}

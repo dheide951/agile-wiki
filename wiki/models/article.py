@@ -12,13 +12,15 @@ class Article(models.Model):
     body = models.TextField(max_length=5000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
+    rate_count = models.IntegerField(default=0)
+    rate_total = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-id']
 
     @property
     def preview(self):
-        return self.body[:1000]
+        return self.body[:500]
 
     @property
     def has_comments(self):
@@ -27,3 +29,11 @@ class Article(models.Model):
     @property
     def reversed_comments(self):
         return self.comment_set.order_by('-id')
+
+    def calculate_rating(self, rating):
+        self.rate_count += 1
+        self.rate_total += int(rating)
+        self.rating = round(self.rate_total / self.rate_count)
+        self.save()
+
+

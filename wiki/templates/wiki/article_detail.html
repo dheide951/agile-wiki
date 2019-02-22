@@ -15,11 +15,10 @@
                 {% endfor %}
             </div>
         {% endif %}
-
     </div>
     <p>{{ article.body | linebreaks }}</p>
     <div>
-        <a href="#" class="btn btn-sm btn-primary">Rate Me</a>
+        <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
     </div>
     {#  Comments #}
     <div class="mt-5">
@@ -46,17 +45,17 @@
         <div class="list-group list-group-flush">
             {% if article.has_comments %}
                 {% for c in article.reversed_comments %}
-                <div class="list-group-item d-flex flex-column">
-                    <span><b>{{ c.user.username }}</b></span>
-                    <p class="mb-2">
-                        {{ c.body }}
-                    </p>
-                    <div class="ml-auto">
-                        <a href="#" class="text-primary" style="text-decoration: none">
-                            <i class="far fa-thumbs-up"></i>
-                            <span>1</span></a>
+                    <div class="list-group-item d-flex flex-column">
+                        <span><b>{{ c.user.username }}</b></span>
+                        <p class="mb-2">
+                            {{ c.body }}
+                        </p>
+{#                        <div class="ml-auto">#}
+{#                            <a href="#" class="text-primary" style="text-decoration: none">#}
+{#                                <i class="far fa-thumbs-up"></i>#}
+{#                                <span>1</span></a>#}
+{#                        </div>#}
                     </div>
-                </div>
                 {% endfor %}
             {% else %}
                 <div class="list-group-item d-flex flex-column">
@@ -65,5 +64,57 @@
             {% endif %}
         </div>
     </div>
+
+    <div class="modal fade" id="rate_model" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Rate This Article</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'rate' pk=article.id %}" method="post" autocomplete="off" id="rate_form">
+                        {% csrf_token %}
+                        <div class="d-flex">
+                            <div class="ml-auto mr-auto">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="one" name="rate"
+                                           class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="one">1</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="two" name="rate"
+                                           class="custom-control-input" value="2">
+                                    <label class="custom-control-label" for="two">2</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="three" name="rate"
+                                           class="custom-control-input" value="3">
+                                    <label class="custom-control-label" for="three">3</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="four" name="rate"
+                                           class="custom-control-input" value="4">
+                                    <label class="custom-control-label" for="four">4</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="five" name="rate"
+                                           class="custom-control-input" value="5">
+                                    <label class="custom-control-label" for="five">5</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" form="rate_form" class="btn btn-sm  btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
