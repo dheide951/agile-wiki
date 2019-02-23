@@ -9,8 +9,9 @@
             <h4 class="ml-auto mr-auto text-white">Donate</h4>
         </div>
 
-        <form method="post" action="{% url 'accept-donation' %}" autocomplete="off" id="name-form">
+        <form action="{% url 'accept-donation' %}" method="post" id="payment-form" autocomplete="off">
             {% csrf_token %}
+
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" placeholder="John Doe" required>
@@ -19,14 +20,8 @@
                 <label for="amount">Amount:</label>
                 <input type="number" id="amount" placeholder="$0.00" step=".01" min="1.00" required>
             </div>
-        </form>
-
-        <form action="{% url 'accept-donation' %}" method="post" id="payment-form" autocomplete="off">
-            {% csrf_token %}
-
 
             <div class="form-row form-group mb-1">
-
 
                 <label for="card-element">
                     Credit or debit card
@@ -40,7 +35,7 @@
             </div>
             <div class="d-flex">
                 <div class="ml-auto">
-                    <button type="submit" class="btn btn-sm btn-primary">Submit Donation</button>
+                    <button type="submit" class="donation_btn">Submit Donation</button>
                 </div>
             </div>
         </form>
@@ -120,20 +115,24 @@
             token_input.setAttribute('type', 'hidden');
             token_input.setAttribute('name', 'stripeToken');
             token_input.setAttribute('value', token.id);
-
-            let name_input = document.createElement('input')
-            name_input.setAttribute('type', 'hidden');
-            name_input.setAttribute('name', 'name');
-            name_input.setAttribute('value', name);
-
-            let amount_input = document.createElement('input')
-            amount_input.setAttribute('type', 'hidden');
-            amount_input.setAttribute('name', 'amount');
-            amount_input.setAttribute('value', amount);
-
             form.appendChild(token_input);
-            form.appendChild(name_input);
-            form.appendChild(amount_input);
+
+            if (name) {
+                let name_input = document.createElement('input')
+                name_input.setAttribute('type', 'hidden');
+                name_input.setAttribute('name', 'name');
+                name_input.setAttribute('value', name);
+                form.appendChild(name_input);
+            }
+
+            if (amount) {
+                let amount_input = document.createElement('input')
+                amount_input.setAttribute('type', 'hidden');
+                amount_input.setAttribute('name', 'amount');
+                amount_input.setAttribute('value', amount);
+                form.appendChild(amount_input);
+            }
+
             // Submit the form
             form.submit();
         }

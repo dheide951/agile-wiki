@@ -104,7 +104,7 @@ body {
     margin-top: 50px;
 }
 
-.register-btn {
+.register-btn, .donation_btn {
     color: white;
     border: none;
     background-color: #51C3A0;
