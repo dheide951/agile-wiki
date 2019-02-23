@@ -120,7 +120,7 @@ body {
     height: 500px;
 }
 
-.article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea, .comment_form textarea {
+.stripe-form input, .article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea, .comment_form textarea {
 
     /*width: 100%;*/
     resize: none;
@@ -132,6 +132,59 @@ body {
 
 }
 
+.stripe-form input::placeholder {
+    color: #aab7c4;
+}
+
+.stripe-form {
+
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    background-color: #343a40;
+    border: 20px solid #51C3A0;
+    padding: 20px;
+
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 40px;
+
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+    background-color: white;
+
+    /*box-shadow: 0 1px 3px 0 #e6ebf1;*/
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+/*.StripeElement--focus {*/
+/*box-shadow: 0 1px 3px 0 #cfd7df;*/
+/*}*/
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.form-row {
+    margin-left: 0;
+    margin-right: 0;
+}
 
 @media (max-width: 700px) {
 

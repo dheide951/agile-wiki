@@ -1,16 +1,50 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from wiki.models import Article, Discussion, Comment
+from wiki.models import Article, Discussion, Comment, Donation
 from wiki.forms import ArticleForm, DiscussionForm, CommentForm
 from django.views import View
 from django.views.generic import DetailView, ListView
+from decouple import config
+import stripe
 
 
 def index(request):
     top_articles = Article.objects.filter(rating__gt=3)
     context = {'top_articles': top_articles}
     return render(request, 'wiki/index.html', context)
+
+
+def donate(request):
+    context = {'stripe_pk': config('STRIPE_PK')}
+    return render(request, 'wiki/donate_form.html', context)
+
+
+def accept_donation(request):
+    if request.method == 'POST':
+        stripe.api_key = config('STRIPE_SK')
+
+        if not all([request.POST['amount'], request.POST['name'], request.POST['stripeToken']]):
+            redirect('donate')
+
+        amount = int(float(request.POST['amount']) * 100)
+
+        charge = stripe.Charge.create(
+            amount=amount,
+            currency='usd',
+            source=request.POST['stripeToken'],
+            description='Donation for agile wiki'
+        )
+
+        donation = Donation(
+            name=request.POST['name'],
+            amount=amount,
+            invoice=charge['invoice']
+        )
+
+        return redirect('index')
+
+    return redirect('donate')
 
 
 def register(request):
