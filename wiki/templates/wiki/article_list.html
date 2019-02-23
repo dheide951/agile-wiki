@@ -1,0 +1,33 @@
+{% extends 'wiki/base_template.html' %}
+
+{% block content %}
+
+    <div class="d-flex align-items-center">
+        <h1>Articles</h1>
+        <div class="ml-auto">
+            <a href="{% url 'add-article' %}" class="btn btn-sm btn-primary">Add Article</a>
+        </div>
+    </div>
+    {% if object_list %}
+    <div class="list-group list-group-flush">
+        {% for a in object_list %}
+            <a href="{% url 'article-detail' pk=a.id %}" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                    <h5>{{ a.title }}</h5>
+                    <span class="ml-auto"><b>{{ a.user.username }}</b></span>
+                </div>
+                <p class="mb-1">
+                    {{ a.preview }}
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+    {% else %}
+
+        <hr>
+        <span>There are no articles at this time</span>
+
+    {% endif %}
+
+
+{% endblock %}

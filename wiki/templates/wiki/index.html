@@ -1,0 +1,61 @@
+{% extends 'wiki/base_template.html' %}
+{% block content %}
+
+
+
+    <div class="mb-5">
+        <h1 class="text-center mb-3">Welcome to the Agile Wiki</h1>
+        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
+            classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a
+            Latin
+            professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
+            consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical
+            literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and
+            1.10.33
+            of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC.
+            This
+            book is a treatise on the theory of ethics, very popular during the Renaissance. The first line
+            of
+            Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+        </p>
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when
+            looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+            of letters, as opposed to using 'Content here, content here', making it look like readable English. Many
+            desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a
+            search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have
+            evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+    </div>
+    <h3 class="mb-2 mt-auto">Top Articles</h3>
+    {% if top_articles %}
+
+        <div class="list-group list-group-flush">
+            {% for a in top_articles %}
+                <a href="{% url 'article-detail' pk=a.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex">
+                        <h5>{{ a.title }}</h5>
+                        <span class="ml-auto"><b>{{ a.user.username }}</b></span>
+                    </div>
+                    <p class="mb-1">{{ a.preview }}</p>
+                    <div class="d-flex mb-4">
+                        {% if a.rating %}
+                            <div>
+                                <span class="mr-2">Rating</span>
+                                {% for i in "x"|ljust:a.rating %}
+                                    <span class="text-warning">&#9733;</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <hr>
+        <span>There are no top articles</span>
+
+    {% endif %}
+
+
+{% endblock %}
