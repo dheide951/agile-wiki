@@ -1,0 +1,55 @@
+{% extends 'wiki/base_template.html' %}
+
+{% block content %}
+
+    <div class="d-flex align-items-center">
+        <h1>{{ discussion.title }}</h1>
+    </div>
+    <h5>{{ discussion.user.username }}</h5>
+    <p>{{ discussion.body }}</p>
+    <div class="mt-5">
+        <div class="d-flex align-items-center">
+            <h3>Comments</h3>
+            <div class="ml-auto">
+                <a href="#" role="button" data-toggle="collapse" data-target="#comment" class="text-primary"
+                   style="text-decoration: none">Leave a comment</a>
+            </div>
+        </div>
+        <div class="collapse mb-3" id="comment">
+            <div class="comment_form">
+                <form action="{% url 'discussion-comment' pk=discussion.id %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    {{ comment_form.body }}
+                    <div class="d-flex align-items-center mt-3">
+                        <div class="ml-auto">
+                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="list-group list-group-flush">
+            {% if discussion.has_comments %}
+                {% for c in discussion.reversed_comments %}
+                    <div class="list-group-item d-flex flex-column">
+                        <span><b>{{ c.user.username }}</b></span>
+                        <p class="mb-2">
+                            {{ c.body }}
+                        </p>
+                        <div class="ml-auto">
+                            <a href="#" class="text-primary" style="text-decoration: none">
+                                <i class="far fa-thumbs-up"></i>
+                                <span>1</span></a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="list-group-item d-flex flex-column">
+                    <span>There are no comments on this discussion. Please leave a comment</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+{% endblock %}

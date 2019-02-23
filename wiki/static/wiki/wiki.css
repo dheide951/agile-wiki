@@ -1,0 +1,224 @@
+/* Sidebar 51C3A0*/
+
+body {
+
+    color: #707070 !important;
+
+}
+
+.container-fluid {
+    padding-left: 0px;
+}
+
+#wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+#wrapper #content-wrapper {
+    overflow-x: hidden;
+    width: 100%;
+    padding: 40px;
+}
+
+.sidebar {
+    width: 240px !important;
+    background-color: #51C3A0;
+    min-height: calc(100vh - 56px);
+}
+
+.sidebar .nav-item .nav-link {
+    font-weight: bold;
+    display: block;
+    /*width: 100%;*/
+    text-align: left;
+    padding: 1rem;
+    width: 225px;
+}
+
+.sidebar .links {
+    list-style: none;
+    margin-left: 10px;
+    color: white;
+}
+
+.sidebar .links li a {
+    text-decoration: none;
+    color: white;
+}
+
+.sidebar .links li::before {
+    content: "\2013";
+}
+
+.sidebar .nav-item .nav-link {
+    color: white;
+}
+
+.sidebar .nav-item .item {
+    margin-left: 1.50em;
+}
+
+.sidebar .nav-item .group::before {
+    content: url("dropdown_arrow.svg");
+    display: inline-block;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    margin-right: .25em;
+}
+
+.wiki-form input[type="text"], input[type="password"] {
+    display: block;
+    width: 100%;
+    border: none;
+    height: 2em;
+    padding: 1em;
+    border-radius: 2px;
+}
+
+.wiki-form .form-group {
+    margin-top: 30px;
+}
+
+.wiki-form .card {
+    background-color: #343a40;
+    width: 400px;
+    color: white;
+    margin: 20px;
+    border: 20px solid #51C3A0;
+    border-radius: 2px;
+}
+
+.wiki-form .card-header {
+    border-bottom: none;
+    text-align: center;
+    background-color: #343a40;
+    font-size: 30px;
+}
+
+.wiki-form {
+    margin-top: 50px;
+}
+
+.register-btn, .donation_btn {
+    color: white;
+    border: none;
+    background-color: #51C3A0;
+    padding: 5px 10px 5px 10px;
+    border-radius: 2px;
+}
+
+.article-form input[type="text"], .discussion-form input[type="text"] {
+    margin-bottom: 2em;
+}
+
+.article-form textarea {
+    height: 500px;
+}
+
+.stripe-form input, .article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea, .comment_form textarea {
+
+    /*width: 100%;*/
+    resize: none;
+    display: block;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    padding: .5em;
+    border-radius: 2px;
+
+}
+
+.stripe-form input::placeholder {
+    color: #aab7c4;
+}
+
+.stripe-form {
+
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    background-color: #343a40;
+    border: 20px solid #51C3A0;
+    padding: 20px;
+
+}
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 40px;
+
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+    background-color: white;
+
+    /*box-shadow: 0 1px 3px 0 #e6ebf1;*/
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+/*.StripeElement--focus {*/
+/*box-shadow: 0 1px 3px 0 #cfd7df;*/
+/*}*/
+
+.StripeElement--invalid {
+    border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+}
+
+.form-row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .wiki-form {
+        max-width: 100%;
+        margin: 50px auto 0px auto;
+    }
+
+    .wiki-form .card {
+        max-width: 95%;
+        margin: 20px auto;
+    }
+
+
+}
+
+@media (max-width: 440px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .wiki-form {
+        max-width: 100%;
+        margin: 50px auto 0px auto;
+    }
+
+    .wiki-form .card {
+        max-width: 85%;
+        margin: 20px auto;
+    }
+
+}
