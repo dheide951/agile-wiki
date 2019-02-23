@@ -42,6 +42,8 @@ def accept_donation(request):
             invoice=charge['invoice']
         )
 
+        donation.save()
+
         return redirect('index')
 
     return redirect('donate')
