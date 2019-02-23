@@ -6,6 +6,7 @@ from wiki.forms import ArticleForm, DiscussionForm, CommentForm
 from django.views import View
 from django.views.generic import DetailView, ListView
 from decouple import config
+from django.contrib import messages
 import stripe
 
 
@@ -25,10 +26,10 @@ def accept_donation(request):
         stripe.api_key = config('STRIPE_SK')
 
         if not all([request.POST['amount'], request.POST['name'], request.POST['stripeToken']]):
+            messages.error(request, 'Not enough information was submitted')
             redirect('donate')
 
         amount = int(float(request.POST['amount']) * 100)
-
         charge = stripe.Charge.create(
             amount=amount,
             currency='usd',
@@ -36,13 +37,17 @@ def accept_donation(request):
             description='Donation for agile wiki'
         )
 
+        if not charge['status'] == 'succeeded':
+            messages.error(request, charge['failure_message'])
+
         donation = Donation(
             name=request.POST['name'],
             amount=amount,
             invoice=charge['invoice']
         )
-
         donation.save()
+
+        messages.success(request, 'Successfully Donated, Thank You')
 
         return redirect('index')
 
@@ -64,6 +69,8 @@ def register(request):
 
             return redirect('index')
 
+        messages.error(request, 'Something went wrong')
+
     else:
         form = UserCreationForm()
 
@@ -83,6 +90,7 @@ def add_article_comment(request, pk):
             comment.article = article
             comment.save()
             return redirect('article-detail', pk=pk)
+        messages.error(request, 'Something went wrong')
 
     return redirect('article-detail', pk=pk)
 
@@ -99,6 +107,8 @@ def add_discussion_comment(request, pk):
             comment.discussion = discussion
             comment.save()
             return redirect('discussion-detail', pk=pk)
+
+        messages.error(request, 'Something went wrong')
 
     return redirect('discussion-detail', pk=pk)
 

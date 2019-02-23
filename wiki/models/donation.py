@@ -7,4 +7,4 @@ class Donation(models.Model):
     received_at = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=50)
     amount = models.IntegerField()
-    invoice = models.CharField(max_length=50)
+    invoice = models.CharField(max_length=50, null=True)
