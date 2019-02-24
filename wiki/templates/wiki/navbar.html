@@ -13,9 +13,9 @@
             <li class="mr-3 nav-item">
                 <a class="nav-link" href="{% url 'donate' %}">Donate <i class="fas fa-heart"></i></a>
             </li>
-            <li class="mr-3 nav-item">
-                <a class="nav-link" href="{% url 'discussions' %}">Discussions</a>
-            </li>
+{#            <li class="mr-3 nav-item">#}
+{#                <a class="nav-link" href="{% url 'discussions' %}">Discussions</a>#}
+{#            </li>#}
             {% if not user.is_authenticated %}
                 <li class="mr-3 nav-item">
                     <a class="nav-link" href="{% url 'register' %}">Register</a>

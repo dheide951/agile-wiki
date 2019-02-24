@@ -53,7 +53,7 @@
                 <div class="comment_form">
                     <form action="{% url 'article-comment' pk=article.id %}" method="post" autocomplete="off">
                         {% csrf_token %}
-                        {{ comment_form.body }}
+                        {{ comment_form.body | linebreaks }}
                         <div class="d-flex align-items-center mt-3">
                             <div class="ml-auto">
                                 <button type="submit" class="btn btn-sm btn-primary">Submit</button>
