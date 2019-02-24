@@ -23,12 +23,20 @@
         {% endif %}
     </div>
     <p>{{ article.body | linebreaks }}</p>
-    <div>
+    <div class="d-flex">
         {% if article.completed %}
             <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
         {% else %}
-            <a href="{% url 'edit-article' pk=article.id %}" class="btn btn-sm btn-primary">Edit</a>
-            <a href="{% url 'complete_article' pk=article.id %}" class="btn btn-sm btn-primary">Submit Article</a>
+            <div class="">
+                <a href="{% url 'edit-article' pk=article.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'complete_article' pk=article.id %}" class="btn btn-sm btn-primary">Submit
+                    Article</a>
+            </div>
+        {% endif %}
+        {% if article.user == user %}
+            <div class="ml-auto">
+                <a href="{% url 'delete-article' pk=article.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
         {% endif %}
     </div>
     {% if article.completed %}

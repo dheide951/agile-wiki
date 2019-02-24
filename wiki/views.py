@@ -11,7 +11,7 @@ import stripe
 
 
 def index(request):
-    top_articles = Article.objects.filter(rating__gt=3)
+    top_articles = Article.objects.filter(rating__gt=3, completed=True)
     context = {'top_articles': top_articles}
     return render(request, 'wiki/index.html', context)
 
@@ -136,6 +136,17 @@ def complete_article(request, pk):
     article.save()
 
     return redirect('article-detail', pk=article.id)
+
+
+def delete_article(request, pk):
+    article = Article.objects.get(pk=pk)
+
+    if not article:
+        messages.error(request, 'Article does not exist')
+        return redirect('articles')
+
+    article.delete()
+    return redirect('user-articles')
 
 
 class ArticleListView(ListView):
