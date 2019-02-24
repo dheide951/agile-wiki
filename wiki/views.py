@@ -126,8 +126,23 @@ def rate_article(request, pk):
     return redirect('article-detail', pk=pk)
 
 
+def complete_article(request, pk):
+    article = Article.objects.get(pk=pk)
+
+    if not article:
+        messages.error(request, 'Article does not exist')
+        return redirect('articles')
+    article.completed = True
+    article.save()
+
+    return redirect('article-detail', pk=article.id)
+
+
 class ArticleListView(ListView):
     model = Article
+
+    def get_queryset(self):
+        return Article.objects.filter(completed=True)
 
 
 class ArticleDetailView(DetailView):
@@ -153,14 +168,38 @@ class ArticleFormView(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
+        if 'pk' in kwargs:
+            if kwargs['pk']:
+                article = Article.objects.get(pk=kwargs['pk'])
+                if not article:
+                    messages.error(request, 'Article does not exist')
+                    return redirect('add-article')
+                form = self.form_class(instance=article)
+            return render(request, 'wiki/edit_article.html', {'form': form})
+
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
+
+        form = self.form_class(request.POST, initial=self.initial)
+        if 'pk' in kwargs:
+            if kwargs['pk']:
+                article = Article.objects.get(pk=kwargs['pk'])
+                if not article:
+                    messages.error(request, 'Article does not exist')
+                    return redirect('add-article')
+                form = self.form_class(request.POST, instance=article)
+
         if form.is_valid():
+
             article = form.save(commit=False)
             article.user = request.user
+
+            if 'post' in form.data:
+                article.completed = True
+
             article.save()
+
             return redirect('article-detail', pk=article.pk)
 
         return render(request, self.template_name, {'form': form})

@@ -2,12 +2,18 @@
 
 {% block content %}
 
+    {% if not article.completed %}
+        <div class="alert alert-info" role="alert">
+            This is a <b>drafted</b> article. When finished please submit this article to go public.
+        </div>
+    {% endif %}
+
     <div class="d-flex align-items-center">
         <h1>{{ article.title }}</h1>
     </div>
     <h5>{{ article.user.username }}</h5>
     <div class="d-flex mb-4">
-        {% if article.rating %}
+        {% if article.rating and article.completed %}
             <div>
                 <span class="mr-2">Rating</span>
                 {% for i in "x"|ljust:article.rating %}
@@ -18,53 +24,59 @@
     </div>
     <p>{{ article.body | linebreaks }}</p>
     <div>
-        <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
+        {% if article.completed %}
+            <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
+        {% else %}
+            <a href="{% url 'edit-article' pk=article.id %}" class="btn btn-sm btn-primary">Edit</a>
+            <a href="{% url 'complete_article' pk=article.id %}" class="btn btn-sm btn-primary">Submit Article</a>
+        {% endif %}
     </div>
-    {#  Comments #}
-    <div class="mt-5">
-        <div class="d-flex align-items-center">
-            <h3>Comments</h3>
-            <div class="ml-auto">
-                <a href="#" role="button" data-toggle="collapse" data-target="#comment" class="text-primary"
-                   style="text-decoration: none">Leave a comment</a>
-            </div>
-        </div>
-        <div class="collapse mb-3" id="comment">
-            <div class="comment_form">
-                <form action="{% url 'article-comment' pk=article.id %}" method="post" autocomplete="off">
-                    {% csrf_token %}
-                    {{ comment_form.body }}
-                    <div class="d-flex align-items-center mt-3">
-                        <div class="ml-auto">
-                            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="list-group list-group-flush">
-            {% if article.has_comments %}
-                {% for c in article.reversed_comments %}
-                    <div class="list-group-item d-flex flex-column">
-                        <span><b>{{ c.user.username }}</b></span>
-                        <p class="mb-2">
-                            {{ c.body }}
-                        </p>
-{#                        <div class="ml-auto">#}
-{#                            <a href="#" class="text-primary" style="text-decoration: none">#}
-{#                                <i class="far fa-thumbs-up"></i>#}
-{#                                <span>1</span></a>#}
-{#                        </div>#}
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class="list-group-item d-flex flex-column">
-                    <span>There are no comments on this article. Please leave a comment</span>
+    {% if article.completed %}
+        {#  Comments #}
+        <div class="mt-5">
+            <div class="d-flex align-items-center">
+                <h3>Comments</h3>
+                <div class="ml-auto">
+                    <a href="#" role="button" data-toggle="collapse" data-target="#comment" class="text-primary"
+                       style="text-decoration: none">Leave a comment</a>
                 </div>
-            {% endif %}
+            </div>
+            <div class="collapse mb-3" id="comment">
+                <div class="comment_form">
+                    <form action="{% url 'article-comment' pk=article.id %}" method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {{ comment_form.body }}
+                        <div class="d-flex align-items-center mt-3">
+                            <div class="ml-auto">
+                                <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="list-group list-group-flush">
+                {% if article.has_comments %}
+                    {% for c in article.reversed_comments %}
+                        <div class="list-group-item d-flex flex-column">
+                            <span><b>{{ c.user.username }}</b></span>
+                            <p class="mb-2">
+                                {{ c.body }}
+                            </p>
+                            {#                        <div class="ml-auto">#}
+                            {#                            <a href="#" class="text-primary" style="text-decoration: none">#}
+                            {#                                <i class="far fa-thumbs-up"></i>#}
+                            {#                                <span>1</span></a>#}
+                            {#                        </div>#}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item d-flex flex-column">
+                        <span>There are no comments on this article. Please leave a comment</span>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    </div>
-
+    {% endif %}
     <div class="modal fade" id="rate_model" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

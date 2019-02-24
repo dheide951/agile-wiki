@@ -2,7 +2,7 @@
 {% block content %}
 
     <div class="article-form">
-        <form action="{% url 'add-article' %}" method="post" autocomplete="off">
+        <form action="{% url 'edit-article' pk=form.instance.id %}" method="post" autocomplete="off">
             {% csrf_token %}
             <h3>Title:</h3>
             {{ form.title }}

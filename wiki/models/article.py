@@ -14,6 +14,7 @@ class Article(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], default=0)
     rate_count = models.IntegerField(default=0)
     rate_total = models.IntegerField(default=0)
+    completed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-id']
