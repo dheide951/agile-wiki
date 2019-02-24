@@ -21,7 +21,7 @@ class Article(models.Model):
 
     @property
     def preview(self):
-        return self.body[:500]
+        return self.body[:500] + '...'
 
     @property
     def has_comments(self):
