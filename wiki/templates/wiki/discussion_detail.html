@@ -6,7 +6,7 @@
         <h1>{{ discussion.title }}</h1>
     </div>
     <h5>{{ discussion.user.username }}</h5>
-    <p>{{ discussion.body }}</p>
+    <p>{{ discussion.body | linebreaks }}</p>
     <div class="mt-5">
         <div class="d-flex align-items-center">
             <h3>Comments</h3>
@@ -34,7 +34,7 @@
                     <div class="list-group-item d-flex flex-column">
                         <span><b>{{ c.user.username }}</b></span>
                         <p class="mb-2">
-                            {{ c.body }}
+                            {{ c.body | linebreaks}}
                         </p>
 {#                        <div class="ml-auto">#}
 {#                            <a href="#" class="text-primary" style="text-decoration: none">#}

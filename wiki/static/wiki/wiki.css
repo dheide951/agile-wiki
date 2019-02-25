@@ -188,6 +188,10 @@ body {
 
 @media (max-width: 700px) {
 
+    .stripe-form {
+        max-width: 95%;
+    }
+
     .sidebar {
         display: none;
     }
@@ -206,6 +210,12 @@ body {
 }
 
 @media (max-width: 440px) {
+
+    .stripe-form {
+        max-width: 100%;
+        margin: 0px;
+        margin: 50px auto 0px auto;
+    }
 
     .sidebar {
         display: none;

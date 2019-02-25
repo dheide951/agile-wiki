@@ -120,8 +120,9 @@ def rate_article(request, pk):
         return redirect('articles')
 
     if request.method == 'POST':
-        if request.POST['rate']:
-            article.calculate_rating(request.POST['rate'])
+        if 'rate' in request.POST:
+            if request.POST['rate']:
+                article.calculate_rating(request.POST['rate'])
 
     return redirect('article-detail', pk=pk)
 

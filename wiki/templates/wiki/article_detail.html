@@ -23,6 +23,7 @@
         {% endif %}
     </div>
     <p>{{ article.body | linebreaks }}</p>
+    <hr>
     <div class="d-flex">
         {% if article.completed %}
             <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
@@ -53,7 +54,7 @@
                 <div class="comment_form">
                     <form action="{% url 'article-comment' pk=article.id %}" method="post" autocomplete="off">
                         {% csrf_token %}
-                        {{ comment_form.body | linebreaks }}
+                        {{ comment_form.body }}
                         <div class="d-flex align-items-center mt-3">
                             <div class="ml-auto">
                                 <button type="submit" class="btn btn-sm btn-primary">Submit</button>
@@ -68,7 +69,7 @@
                         <div class="list-group-item d-flex flex-column">
                             <span><b>{{ c.user.username }}</b></span>
                             <p class="mb-2">
-                                {{ c.body }}
+                                {{ c.body | linebreaks}}
                             </p>
                             {#                        <div class="ml-auto">#}
                             {#                            <a href="#" class="text-primary" style="text-decoration: none">#}
