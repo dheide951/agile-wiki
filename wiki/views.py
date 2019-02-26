@@ -150,6 +150,18 @@ def delete_article(request, pk):
     return redirect('user-articles')
 
 
+def delete_comment(request, pk):
+    comment = Comment.objects.get(pk=pk)
+    article = comment.article
+
+    if not comment:
+        messages.error(request, 'Comment does not exist')
+        return redirect('articles')
+
+    comment.delete()
+    return redirect('article-detail', pk=article.pk)
+
+
 class ArticleListView(ListView):
     model = Article
 

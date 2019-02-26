@@ -31,4 +31,5 @@ urlpatterns = [
     path('donate/', views.donate, name='donate'),
     path('accept-donation/', views.accept_donation, name='accept-donation'),
     path('complete_article/<int:pk>', login_required(views.complete_article), name='complete_article'),
+    path('delete-comment/<int:pk>', login_required(views.delete_comment), name='delete-comment')
 ]

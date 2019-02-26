@@ -26,16 +26,17 @@
     <hr>
     <div class="d-flex">
         {% if article.completed %}
-            <a href="#" data-toggle="modal" data-target="#rate_model" class="btn btn-sm btn-primary">Rate Me</a>
+            <a href="#" data-toggle="modal" data-target="#rate_model"
+               class="btn btn-sm btn-primary">Rate Me</a>
         {% else %}
             <div class="">
-                <a href="{% url 'edit-article' pk=article.id %}" class="btn btn-sm btn-primary">Edit</a>
                 <a href="{% url 'complete_article' pk=article.id %}" class="btn btn-sm btn-primary">Submit
                     Article</a>
             </div>
         {% endif %}
         {% if article.user == user %}
             <div class="ml-auto">
+                <a href="{% url 'edit-article' pk=article.id %}" class="btn btn-sm btn-primary">Edit</a>
                 <a href="{% url 'delete-article' pk=article.id %}" class="btn btn-danger btn-sm">Delete</a>
             </div>
         {% endif %}
@@ -67,9 +68,18 @@
                 {% if article.has_comments %}
                     {% for c in article.reversed_comments %}
                         <div class="list-group-item d-flex flex-column">
-                            <span><b>{{ c.user.username }}</b></span>
+                            <div class="d-flex">
+                                <span><b>{{ c.user.username }}</b></span>
+                                {% if c.user == user %}
+                                    <d class="ml-auto">
+                                        {#                                        <a href="#" class="text-secondary mr-1"><i class="fas fa-pencil-alt"></i></a>#}
+                                        <a href="{% url 'delete-comment' pk=c.id %}" class="text-danger"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </d>
+                                {% endif %}
+                            </div>
                             <p class="mb-2">
-                                {{ c.body | linebreaks}}
+                                {{ c.body | linebreaks }}
                             </p>
                             {#                        <div class="ml-auto">#}
                             {#                            <a href="#" class="text-primary" style="text-decoration: none">#}
