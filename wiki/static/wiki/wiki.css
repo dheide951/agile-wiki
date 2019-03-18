@@ -120,7 +120,19 @@ body {
     height: 500px;
 }
 
-.stripe-form input, .article-form input[type="text"], .article-form textarea, .discussion-form input[type="text"], .discussion-form textarea, .comment_form textarea {
+.contact-form input {
+    margin-bottom: 2em;
+}
+
+.stripe-form input,
+.article-form input[type="text"],
+.article-form textarea,
+.discussion-form input[type="text"],
+.discussion-form textarea,
+.comment_form textarea,
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
 
     /*width: 100%;*/
     resize: none;
