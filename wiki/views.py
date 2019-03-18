@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from wiki.models import Article, Discussion, Comment, Donation
-from wiki.forms import ArticleForm, DiscussionForm, CommentForm
+from wiki.forms import ArticleForm, DiscussionForm, CommentForm, ContactForm
 from django.views import View
+from django.core.mail import send_mail
 from django.views.generic import DetailView, ListView
 from decouple import config
 from django.contrib import messages
+from smtplib import SMTPException
 import stripe
 
 
@@ -160,6 +162,32 @@ def delete_comment(request, pk):
 
     comment.delete()
     return redirect('article-detail', pk=article.pk)
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            sender = form.cleaned_data['sender']
+
+            try:
+                send_mail(subject, message, sender, ['dheide@uncc.edu'], fail_silently=False)
+            except SMTPException as e:
+                messages.error(request, str(e))
+                return redirect('contact')
+            except Exception as e:
+                messages.error(request, str(e))
+                return redirect('contact')
+
+            messages.success(request, 'Email sent successfully')
+            return redirect('index')
+
+    else:
+        form = ContactForm()
+        return render(request, 'wiki/contact_form.html', {'form': form})
 
 
 class ArticleListView(ListView):
