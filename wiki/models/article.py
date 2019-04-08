@@ -15,6 +15,7 @@ class Article(models.Model):
     rate_count = models.IntegerField(default=0)
     rate_total = models.IntegerField(default=0)
     completed = models.BooleanField(default=False)
+    image_url = models.URLField(null=True)
 
     class Meta:
         ordering = ['-id']

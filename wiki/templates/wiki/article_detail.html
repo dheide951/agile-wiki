@@ -22,6 +22,9 @@
             </div>
         {% endif %}
     </div>
+    {% if article.image_url %}
+        <img src="{{ article.image_url }}" alt="article image" width="250" height="250" id="article_image">
+    {% endif %}
     <p>{{ article.body | linebreaks }}</p>
     <hr>
     <div class="d-flex">
