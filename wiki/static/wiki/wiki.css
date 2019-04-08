@@ -136,6 +136,11 @@ body {
     color: #aab7c4;
 }
 
+#article_image {
+    float: right;
+    margin: 25px !important;
+}
+
 .stripe-form {
 
     width: 500px;
